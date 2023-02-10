@@ -53,7 +53,7 @@ public class LoginController extends HttpServlet {
       // 1) 전달값에 한글이 있을경우 인코딩 처리해야한다.(POST방식일 때만)
       request.setCharacterEncoding("UTF-8");
       
-      // 2) 요청 시 전달값을 꺼내서 변수 OR 객체에 기록
+      // 2) 요청 시 전달값을 꺼내서 변수 or 객체에 기록
       String userId = request.getParameter("userId");
       String userPwd = request.getParameter("userPwd");
       
