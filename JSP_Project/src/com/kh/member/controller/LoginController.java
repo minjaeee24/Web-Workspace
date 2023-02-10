@@ -74,8 +74,8 @@ public class LoginController extends HttpServlet {
        *  => session과 request를 주로 쓴다.
        *  
        *  공통적으로 데이터를 담을 때 : .setAttribute("키", "밸류");
-       *             	 꺼낼 때 : .getAttribute("키");
-       *             	 지울 때 : .removeAttribute("키");
+       *             	꺼낼 때 : .getAttribute("키");
+       *             	지울 때 : .removeAttribute("키");
        */
       if(loginUser == null) { // 로그인 실패 => 에러페이지 응답
           request.setAttribute("errorMsg", "로그인에 실패 했습니다.");
@@ -98,11 +98,11 @@ public class LoginController extends HttpServlet {
          
          // 1. 포워딩방식 응답 뷰 출력하기
          //    선택된 jsp가 보여질 뿐 url에는 여전히 현재 이 서블릿에 대한 매핑값이 남아있을 것
-         //    localhost:8082/jspproject/login.me
+         //    localhost:8081/jspproject/login.me
          //    url에 내용이 그대로 남아있는 상태에서 새로고침(f5)누르게되면 계속 로그인 요청을 보내게 될 것.
          
          // 2. url재요청방식 (sendRedirect 방식)
-         //    localhost:8082/jspporject라는 url로 재요청 보냄
+         //    localhost:8081/jspproject라는 url로 재요청 보냄
          response.sendRedirect(request.getContextPath()); // 로그인시에는 redirect방식이 사용된다.
          
          
