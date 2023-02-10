@@ -41,13 +41,13 @@ public class LoginController extends HttpServlet {
     */
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {   
       /*
-       * <HttpServletRequest 객체와 HttpServletResponse 객체>
+       * <HttpServletRequest객체와 HttpServletResponse객체>
        * - request  : 서버로 요청할 때의 정보들이 담겨있음(요청시 전달한 값, 전송방식 등)
        * - response : 요청에 대해 응답할 때 필요한 객체
        * 
        * <GET 방식과 POST방식 차이>
        * - GET 방식 : 사용자가 입력한 값들이 url노출 O / 데이터 길이제한 O / 즐겨찾기 기능상 편리
-       * - POST 방식 :                        X /             X / 대신 Timeout이 존재
+       * - POST 방식 :                       X /            X / 대신 Timeout이 존재
        */
       
       // 1) 전달값에 한글이 있을경우 인코딩 처리해야한다.(POST방식일 때만)
@@ -67,7 +67,7 @@ public class LoginController extends HttpServlet {
        * 
        *  1) application  : application에 담은 데이터는 웹 애플리케이션 전역에서 다 꺼내 쓸 수 있음
        *  2) session      : session에 담은 데이터는 모든 jsp와 servlet에서 꺼내 쓸 수 있음
-       *                한번 담은 데이터는 내가 직접 지우기 전까지, 서버가 멈추기 전까지, 브라우저가 종료되기 전까지 접근해서 꺼내 쓸 수 있음
+       *               		한번 담은 데이터는 내가 직접 지우기 전까지, 서버가 멈추기 전까지, 브라우저가 종료되기 전까지 접근해서 꺼내 쓸 수 있음
        *  3) request      : request에 담은 데이터는 해당 request를 포워딩한 응답 jsp에서만 꺼내쓸 수 있다.
        *  4) page         : jsp에서만 꺼내쓸 수 있다.
        *  
