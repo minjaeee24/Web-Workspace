@@ -63,7 +63,7 @@ public class LoginController extends HttpServlet {
       // 4) 처리된 결과를 가지고 사용자가 보게될 화면(view)를 지정 후 포워딩 or url재요청
       
       /*
-       * 응답 페이지에 전달한 값이 있을경우 값을 어딘가에 담아야함 (담아줄수 있는 Servlet Scope의 내장객체 4종류)
+       * 응답 페이지에 전달한 값이 있을경우 값을 어딘가에 담아야함(담아줄수 있는 Servlet Scope의 내장객체 4종류)
        * 
        *  1) application  : application에 담은 데이터는 웹 애플리케이션 전역에서 다 꺼내 쓸 수 있음
        *  2) session      : session에 담은 데이터는 모든 jsp와 servlet에서 꺼내 쓸 수 있음
@@ -78,7 +78,7 @@ public class LoginController extends HttpServlet {
        *             	지울 때 : .removeAttribute("키");
        */
       if(loginUser == null) { // 로그인 실패 => 에러페이지 응답
-          request.setAttribute("errorMsg", "로그인에 실패 했습니다.");
+          request.setAttribute("errorMsg", "로그인에 실패했습니다.");
           
           RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
           
