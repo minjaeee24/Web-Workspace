@@ -64,6 +64,14 @@ String alertMsg = (String) session.getAttribute("alertMsg");
 .menu a:hover {
 	background: darkgray;
 }
+
+.outer{
+		background: black;
+		color: white;
+		width: 1000px;
+		margin: auto;
+		margin-top: 50px
+	}
 </style>
 </head>
 <body>
