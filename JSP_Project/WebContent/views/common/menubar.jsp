@@ -115,7 +115,7 @@ String alertMsg = (String) session.getAttribute("alertMsg");
 		</form>
 		<script>
 			function enrollPage(){
-				// location.href = "<%=contextPath%> / enrollForm.me"; 했을때 이동은 가능			
+				// location.href = "<%=contextPath%>/enrollForm.me"; 했을때 이동은 가능			
 				// 웹어플리케이션의 디렉토리 구조가 url에 노출되면 보안에 취약
 				
 				// 단순한 정적인 페이지 이동요청이라고 해도 반드시 selvet을 거쳐갈것 => url에 서블릿 매핑값만 노출되도록 하기
@@ -130,8 +130,8 @@ String alertMsg = (String) session.getAttribute("alertMsg");
 			<b><%=loginUser.getUserName()%></b>님 환영합니다.<br>
 			<br>
 			<div align="center">
-				<a href="<%=contextPath%>/myPage.me">마이페이지</a> <a
-					href="<%=contextPath%>/logout.me">로그아웃</a>
+				<a href="<%=contextPath%>/myPage.me">마이페이지</a> 
+				<a href="<%=contextPath%>/logout.me">로그아웃</a>
 			</div>
 		</div>
 		<%

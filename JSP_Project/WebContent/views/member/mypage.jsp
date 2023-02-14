@@ -9,6 +9,9 @@
 	
 	#mypage-form table{margin: auto;}
 	#mypage-form input{margin: 5px;}
+	
+	.modal {color: black;}
+	
 </style>
 </head>
 <body>
@@ -61,17 +64,20 @@
 				<tr>
 					<td>&nbsp;&nbsp;관심분야</td>
 					<td colspan="2">
-						<!-- (input[type=checkbox name=interest id= value=]+label)*6 --> <input
-						type="checkbox" name="interest" id="sports" value="운동"> <label
-						for="sports">운동</label> <input type="checkbox" name="interest"
-						id="hiking" value="등산"> <label for="hiking">등산</label> <input
-						type="checkbox" name="interest" id="fishing" value="낚시"> <label
-						for="fishing">낚시</label> <br> <input type="checkbox"
-						name="interest" id="cooking" value="요리"> <label
-						for="cooking">요리</label> <input type="checkbox" name="interest"
-						id="game" value="게임"> <label for="game">게임</label> <input
-						type="checkbox" name="interest" id="movie" value="영화"> <label
-						for="movie">영화</label>
+						<!-- (input[type=checkbox name=interest id= value=]+label)*6 --> 
+						<input type="checkbox" name="interest" id="sports" value="운동"> 
+						<label for="sports">운동</label> 
+						<input type="checkbox" name="interest" id="hiking" value="등산"> 
+						<label for="hiking">등산</label> 
+						<input type="checkbox" name="interest" id="fishing" value="낚시"> 
+						<label for="fishing">낚시</label>
+						<br> 
+						<input type="checkbox" name="interest" id="cooking" value="요리"> 
+						<label for="cooking">요리</label>
+						<input type="checkbox" name="interest" id="game" value="게임"> 
+						<label for="game">게임</label> 
+						<input type="checkbox" name="interest" id="movie" value="영화"> 
+						<label for="movie">영화</label>
 					</td>
 				</tr>
 			</table>
@@ -103,10 +109,83 @@
 				<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#updatePwdForm">비밀번호 변경</button>
 				<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteForm">회원탈퇴</button>
 			</div>
-		
-		
 		</form>
-		
+
+	<!-- Modal -->
+		<div class="modal" id="deleteForm">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- 모달 헤더 -->
+					<div class="modal-header">
+						<h4 class="modal-title">회원탈퇴</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+
+					<!-- 모달 바디 -->
+					<div class="modal-body" align="center">
+						<form action="<%=contextPath%>/delete.me" method="post">
+							<table>
+								<tr>
+									<td>비밀번호</td>
+									<td><input type="password" name="userPwd" required></td>
+								</tr>
+							</table>
+							<br>
+							<button type="submit" class="btn btn-danger btn-sm">탈퇴하기</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal" id="updatePwdForm">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- 모달 헤더 -->
+					<div class="modal-header">
+						<h4 class="modal-title">비밀번호 변경</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+
+					<!-- 모달 바디 -->
+					<div class="modal-body" align="center">
+						<form action="<%=contextPath%>/updatePwd.me" method="post">
+							<table>
+								<tr>
+									<td>현재 비밀번호</td>
+									<td><input type="password" name="userPwd" required></td>
+								</tr>
+								<tr>
+									<td>변경할 비밀번호</td>
+									<td><input type="password" name="updatePwd" required></td>
+								</tr>
+								<tr>
+									<td>변경할 비밀번호 확인</td>
+									<td><input type="password" name="checkPwd" required></td>
+								</tr>
+							</table>
+							<br>
+							<button type="submit" class="btn btn-secondary btn-sm"
+								onclick="return validate();">비밀번호 변경</button>
+
+							<script>
+								function validate() {
+									if ($("input[name='updatePwd']").val() != $(
+											"input[name='checkPwd']").val()) {
+										alert("비밀번호가 일치하지 않습니다");
+
+										return false;
+									}
+								}
+							</script>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 	
 </body>
