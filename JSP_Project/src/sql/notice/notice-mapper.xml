@@ -54,8 +54,10 @@
 	</entry>
 	<entry key="updateNotice">
 		UPDATE NOTICE
-		SET 
-		
+		SET NOTICE_TITLE = ?,
+			NOTICE_CONTENT = ?,
+			NOTICE_WRITER = ?
+		WHERE STAUS = 'Y'
 	</entry>
 	
 </properties>

@@ -192,4 +192,8 @@ public class NoticeDao {
 		
 		return noticeNo;
 	}
+	
+	public int updateNotice() {
+		
+	}
 }
