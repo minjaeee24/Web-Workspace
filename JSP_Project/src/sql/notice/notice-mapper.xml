@@ -12,14 +12,15 @@
 		JOIN MEMBER M ON(NOTICE_WRITER = USER_NO)
 		WHERE N.STATUS = 'Y'
 		ORDER BY CREATE_DATE DESC
-				
 	</entry>
+	
 	<entry key="increaseCount">
 		UPDATE NOTICE
 		SET COUNT = COUNT + 1
 		WHERE NOTICE_NO = ?
 		  AND STATUS = 'Y'
 	</entry>
+	
 	<entry key="selectNotice">
 		SELECT NOTICE_NO,
 			   NOTICE_TITLE,
@@ -48,16 +49,22 @@
 			?
 		)
 	</entry>
+	
 	<entry key="selectNoticeNo">
 		SELECT SEQ_NNO.CURRVAL AS NOTICE_NO
 		FROM DUAL
 	</entry>
+	
 	<entry key="updateNotice">
 		UPDATE NOTICE
 		SET NOTICE_TITLE = ?,
-			NOTICE_CONTENT = ?,
-			NOTICE_WRITER = ?
-		WHERE STAUS = 'Y'
+			NOTICE_CONTENT = ?
+		WHERE NOTICE_NO = ? AND STATUS='Y' 
 	</entry>
 	
+	<entry key="deleteNotice">
+		UPDATE NOTICE
+		SET STATUS = 'N'
+		WHERE NOTICE_NO = ?
+	</entry>
 </properties>

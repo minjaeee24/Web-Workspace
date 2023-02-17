@@ -152,7 +152,7 @@ String alertMsg = (String) session.getAttribute("alertMsg");
 			<a href="<%=contextPath%>/list.no">공지사항</a>
 		</div>
 		<div class="menu">
-			<a href="<%=contextPath%>/list.do?currnetPage">일반게시판</a>
+			<a href="<%=contextPath%>/list.bo?currnetPage=1">일반게시판</a>
 		</div>
 		<div class="menu">
 			<a href="<%=contextPath%>/list/thp">사진게시판</a>
