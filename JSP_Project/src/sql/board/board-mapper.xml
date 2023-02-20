@@ -47,20 +47,22 @@
 	</entry>
 	
 	<entry key="increaseCount">
-		UPDATE NOTICE
+		UPDATE BOARD
 		SET COUNT = COUNT + 1
-		WHERE NOTICE_NO = ?
+		WHERE BOARD_NO = ?
 		  AND STATUS = 'Y'
 	</entry>
 	
-	<entry key="detailBoard">
-		SELECT BOARD_TITLE,
+	<entry key="selectBoard">
+		SELECT BOARD_NO,
+			   BOARD_CATEGORY,
+			   BOARD_TITLE,
 			   BOARD_CONTENT,
-			   CREATD_DATE,
 			   USER_ID
-		FROM BOARD
-		JOIN MEMBER ON (BOARD_WRITER = UESR_NO)
-		WHERE NOTICE_NO = ?
-		  AND STATUE = 'Y'
+			   CREATE_DATE
+		FROM BOARD B
+		JOIN MEMBER M ON(BOARD_WRITER = USER_NO)
+		WHERE BOARD_NO = ?
+		  AND B.STATUS = 'Y'
 	</entry>
 </properties>

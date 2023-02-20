@@ -222,7 +222,41 @@ public class BoardDao {
 		return result;
 	}
 	
-	public Board selectBoard() {
+	public Board selectBoard(Connection conn, int nno) {
+		
+		Board b = null;
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectBoard");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, nno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Board(
+						rset.getInt("BOARD_NO"),
+						rset.getString("BOARD_CATEGORY"),
+						rset.getString("BOARD_TITLE"),
+						rset.getString("BOARD_CONTENT"),
+						rset.getString("USER_ID"),
+						rset.getDate("CREATE_DATE")
+						);
+			}
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return b;
 		
 	}
 }

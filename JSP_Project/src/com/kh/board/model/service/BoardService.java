@@ -80,7 +80,16 @@ public class BoardService {
 			rollback(conn);
 		}
 		return result;
+	}
+	
+	public Board selectBoard(int nno) {
 		
+		Connection conn = getConnection();
 		
+		Board b = new BoardDao().selectBoard(conn, nno);
+		
+		close(conn);
+		
+		return b;
 	}
 }

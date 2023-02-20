@@ -37,10 +37,10 @@ public class BoardDetailController extends HttpServlet {
 		if(result > 0) { // 성공
 			Board b = new BoardService().selectBoard(nno);
 			request.setAttribute("b", b);
-			request.getRequestDispatcher("views/board/boardDetailView");
+			request.getRequestDispatcher("views/board/boardDetailView.jsp").forward(request, response);
 		}else { // 실패
 			request.setAttribute("errorMsg", "게시글 조회에 실패했습니다");
-			request.getRequestDispatcher("views/common/errorPage");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 	}
 

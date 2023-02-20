@@ -58,7 +58,7 @@
 					</tr>
 				<% } else { %>
 					<% for(Board b : list) { %>				
-						<tr onclick="moveNotice(<%= b.getNoticeNo() %>)">
+						<tr onclick="moveNotice(<%= b.getBoardNo() %>)">
 							<td><%= b.getBoardNo() %></td>
 							<td><%= b.getCategory() %></td>
 							<td><%= b.getBoardTitle() %></td>
