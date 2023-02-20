@@ -30,9 +30,37 @@
 			)
 		WHERE RNUM BETWEEN ? AND ?
 	</entry>
-	<entry key="insertNotice">
-		SELECT BOARD_TITLE, BOARD_CONTENT
+	
+	<entry key="selectCategoryList">
+		SELECT CATEGORY_NO, CATEGORY_NAME
+		FROM CATEGORY
+	</entry>
+	
+	<entry key="insertBoard">
+		INSERT INTO BOARD(BOARD_NO, BOARD_TYPE, CATEGORY_NO, BOARD_TITLE, BOARD_CONTENT,BOARD_WRITER)
+		VALUES (SEQ_BNO.NEXTVAL, 1, ?, ?, ?, ?)
+	</entry>
+	
+	<entry key="insertAttachment">
+		INSERT INTO ATTACHMENT(FILE_NO, REF_BNO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH)
+		VALUES(SEQ_FNO.NEXTVAL, SEQ_BNO.CURRVAL, ?, ?, ?)
+	</entry>
+	
+	<entry key="increaseCount">
+		UPDATE NOTICE
+		SET COUNT = COUNT + 1
+		WHERE NOTICE_NO = ?
+		  AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="detailBoard">
+		SELECT BOARD_TITLE,
+			   BOARD_CONTENT,
+			   CREATD_DATE,
+			   USER_ID
 		FROM BOARD
-		WHERE BOARD_NO
+		JOIN MEMBER ON (BOARD_WRITER = UESR_NO)
+		WHERE NOTICE_NO = ?
+		  AND STATUE = 'Y'
 	</entry>
 </properties>

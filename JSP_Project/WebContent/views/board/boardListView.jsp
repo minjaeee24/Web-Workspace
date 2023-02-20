@@ -38,7 +38,7 @@
 		<!-- 글 등록버튼(로그인한 회원만 보이도록) -->
 		<% if(loginUser != null) { %>
 			<div align="right" style="width: 850px">
-				<a href="<%= contextPath %>/enrollForm.bo" class="btn btn-secondary">글작성</a>
+				<a href="<%= contextPath %>/insert.bo" class="btn btn-secondary">글작성</a>
 				<br><br>
 			</div>
 		<% } %>
@@ -58,7 +58,7 @@
 					</tr>
 				<% } else { %>
 					<% for(Board b : list) { %>				
-						<tr>
+						<tr onclick="moveNotice(<%= b.getNoticeNo() %>)">
 							<td><%= b.getBoardNo() %></td>
 							<td><%= b.getCategory() %></td>
 							<td><%= b.getBoardTitle() %></td>
@@ -130,7 +130,24 @@
 			<button onclick="location.href = '<%= contextPath %>/list.bo?currentPage=<%= maxPage %>'">&gt;&gt;</button>
 		</div>
 	</div>
-
+<script>
+	$(function(){
+		
+		$(".list-area>tbody>tr").click(function(){
+			
+			// 클릭했을때 해당 공지사항의 번호를 가져올 수 있어야함
+			let nno = $(this).children().eq(0).text();
+			
+			// get방식으로 요청시 url ? 붙여서 파라미터를 함께 전송할 수 있음
+			// ? 키 = 벨류 & 키 = 벨류
+			// ? 물음표 뒤의 내용들을 쿼리스트링이라고 부름
+			// nno값은 클릭했을때 이동할 게시판의 글 번호
+			location.href = "<%= contextPath %>/detail.bo?nno="+nno;
+			
+		})
+		
+	})
+</script>
 
 </body>
 </html>
