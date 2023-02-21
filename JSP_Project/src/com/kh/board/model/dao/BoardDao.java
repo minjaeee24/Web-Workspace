@@ -199,7 +199,9 @@ public class BoardDao {
 		return result;
 	}
 	
-	public int increaseCount(Connection conn, int nno) {
+	public int increaseCount(Connection conn, int boardNo) {
+		
+		// DML -> 처리된 행의 개수
 		int result = 0;
 		
 		PreparedStatement pstmt = null;
@@ -209,7 +211,7 @@ public class BoardDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, nno);
+			pstmt.setInt(1, boardNo);
 			
 			result = pstmt.executeUpdate();
 			
@@ -222,7 +224,7 @@ public class BoardDao {
 		return result;
 	}
 	
-	public Board selectBoard(Connection conn, int nno) {
+	public Board selectBoard(Connection conn, int boardNo) {
 		
 		Board b = null;
 		
@@ -235,7 +237,7 @@ public class BoardDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, nno);
+			pstmt.setInt(1, boardNo);
 			
 			rset = pstmt.executeQuery();
 			
@@ -257,6 +259,71 @@ public class BoardDao {
 			close(pstmt);
 		}
 		return b;
+		
+	}
+	
+	public Attachment selectAttachment(Connection conn, int boardNo) {
+		
+		Attachment at = null;
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, boardNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				at = new Attachment();
+				
+				at.setFileNo(rset.getInt("FILE_NO"));
+				at.setOriginName(rset.getString("ORIGIN_NAME"));
+				at.setChangeName(rset.getString("CHANGE_NAME"));
+				at.setFilePath(rset.getString("FILE_PATH"));
+				
+				at.setFileLevel(rset.getInt("FILE_LEVEL"));
+			}
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return at;
+	}
+	
+	public int updateBoard(Connection conn, Board b) {
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateBoard");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, b.getBoardTitle());
+			pstmt.setString(2, b.getBoardContent());
+			pstmt.setInt(3, Integer.parseInt(b.getCategory()));
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+		
+	}
+	
+	public int updateAttachment(Connection conn, Attachment at) {
 		
 	}
 }

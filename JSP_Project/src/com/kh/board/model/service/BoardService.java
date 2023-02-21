@@ -68,11 +68,11 @@ public class BoardService {
 		return result1 * result2; // 혹시 하나라도 실패해서 0이 반환될 경우 아예 실패값을 반환하기 위해 곱셈결과를 리턴
 	}
 	
-	public int increaseCount(int nno) {
+	public int increaseCount(int boardNo) {
 		
 		Connection conn = getConnection();
 		
-		int result = new BoardDao().increaseCount(conn, nno);
+		int result = new BoardDao().increaseCount(conn, boardNo);
 		
 		if(result > 0) {
 			commit(conn);
@@ -82,14 +82,51 @@ public class BoardService {
 		return result;
 	}
 	
-	public Board selectBoard(int nno) {
+	public Board selectBoard(int boardNo) {
 		
 		Connection conn = getConnection();
 		
-		Board b = new BoardDao().selectBoard(conn, nno);
+		Board b = new BoardDao().selectBoard(conn, boardNo);
 		
 		close(conn);
 		
 		return b;
+	}
+	
+	public Attachment selectAttachment(int boardNo) {
+		
+		Connection conn = getConnection();
+		
+		Attachment at = new BoardDao().selectAttachment(conn, boardNo);
+		
+		close(conn);
+		
+		return at;
+	}
+	
+	public int updateBoard(Board b, Attachment at) {
+		
+		Connection conn = getConnection();
+		
+		int result1 = new BoardDao().updateBoard(conn, b);
+		
+		int result2 = 1;
+		
+		if(at != null) {
+			if() {
+				result2 = new BoardDao().updateAttachment(conn, at);				
+			} else {
+				result2 = new BoardDao().insertAttachment(conn, at);
+			}
+		} else {
+			
+		}
+		
+		if(result1 > 0 && result2 > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		return result1 * result2;
 	}
 }

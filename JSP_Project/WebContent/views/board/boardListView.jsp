@@ -68,33 +68,24 @@
 						</tr>
 					<% } %>
 				<% } %>
-				<!-- <tr>
-					<td>14</td>
-					<td>운동</td>
-					<td>제목</td>
-					<td>user01</td>
-					<td>10033</td>
-					<td>2023-02-17</td>
-				</tr>
-				<tr>
-					<td>14</td>
-					<td>운동</td>
-					<td>제목</td>
-					<td>user01</td>
-					<td>10033</td>
-					<td>2023-02-17</td>
-				</tr>
-				<tr>
-					<td>14</td>
-					<td>운동</td>
-					<td>제목</td>
-					<td>user01</td>
-					<td>10033</td>
-					<td>2023-02-17</td>
-				</tr> -->
 			</tbody>
 		</table>
-
+		<script>
+			$(function(){
+				$(".list-area>tbody>tr").click(function(){
+					// 클릭시 해당 공지사항의 글번호를 알아와야함
+					// tr요소의 자손중에서 첫 번째 태그의 td태그영역 안의 내용을 가져올 예정
+					
+					let bno = $(this).children().eq(0).text();
+					// 현재 내가 클릭한 tr자손들 중 0번째 위치한 자식의 textNode값을 가져온다
+					
+					// 요청할 url?키=밸류&키=밸류
+					// 물음표 뒤의 내용을 쿼리스트링이라고 부름 => 직접 만들어서 넘겨줘야한다.
+					location.href = "<%= contextPath %>/detail.bo?bno="+bno;
+					
+				})
+			})
+		</script>
 		<br><br>
 
 		<!-- 페이징바 영역 -->
@@ -130,24 +121,7 @@
 			<button onclick="location.href = '<%= contextPath %>/list.bo?currentPage=<%= maxPage %>'">&gt;&gt;</button>
 		</div>
 	</div>
-<script>
-	$(function(){
-		
-		$(".list-area>tbody>tr").click(function(){
-			
-			// 클릭했을때 해당 공지사항의 번호를 가져올 수 있어야함
-			let nno = $(this).children().eq(0).text();
-			
-			// get방식으로 요청시 url ? 붙여서 파라미터를 함께 전송할 수 있음
-			// ? 키 = 벨류 & 키 = 벨류
-			// ? 물음표 뒤의 내용들을 쿼리스트링이라고 부름
-			// nno값은 클릭했을때 이동할 게시판의 글 번호
-			location.href = "<%= contextPath %>/detail.bo?nno="+nno;
-			
-		})
-		
-	})
-</script>
+
 
 </body>
 </html>
