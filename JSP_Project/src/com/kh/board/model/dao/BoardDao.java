@@ -1,6 +1,7 @@
 package com.kh.board.model.dao;
 
 import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.getConnection;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -96,8 +97,6 @@ public class BoardDao {
 			
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, endRow);
-			System.out.println(pi);
-			System.out.println(list);
 			
 			rset = pstmt.executeQuery();
 			while(rset.next()) {
@@ -470,5 +469,39 @@ public class BoardDao {
 			close(pstmt);
 		}
 		return result;
+	}
+	
+	public ArrayList<Board> selectThumbnailBoard(Connection conn) {
+		
+		ArrayList<Board> list = new ArrayList();
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectThumbnailBoard");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Board b = new Board(rset.getInt("BOARD_NO"),
+									rset.getString("CATEGORY_NAME"),
+									rset.getString("BOARD_TITLE"),
+									rset.getString("USER_ID"),
+									rset.getInt("COUNT"),
+									rset.getDate("CREATE_DATE"));
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return list;
+		
+
 	}
 }

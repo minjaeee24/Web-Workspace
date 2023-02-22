@@ -108,6 +108,7 @@
 		AND BOARD_WRITER = ?
 	</entry>
 	
+	<!-- 사진게시판 -->
 	<entry key="deleteAttachment">
 		DELETE FROM ATTACHMENT
 		WHERE REF_BNO = ?
@@ -121,6 +122,15 @@
 	<entry key="insertAttachmentList">
 		INSERT INTO ATTACHMENT(FILE_NO, REF_BNO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH, FILE_LEVEL)
 		VALUES(SEQ_FNO.NEXTVAL, SEQ_BNO.CURRVAL, ?, ?, ?, ?)
+	</entry>
+	
+	<entry key="selectThumbnailBoard">
+		SELECT BOARD_TITLE,
+			   FILE_PATH
+		FROM BOARD B
+		JOIN MEMBER ON(BOARD_WRITER = USER_NO)
+		WHERE BOARD_NO = ?
+		  AND B.STATUS = 'Y'
 	</entry>
 	
 </properties>
