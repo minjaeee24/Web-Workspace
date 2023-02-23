@@ -471,7 +471,7 @@ public class BoardDao {
 		return result;
 	}
 	
-	public ArrayList<Board> selectThumbnailBoard(Connection conn) {
+	public ArrayList<Board> selectThumbnailList(Connection conn) {
 		
 		ArrayList<Board> list = new ArrayList();
 		
@@ -479,7 +479,7 @@ public class BoardDao {
 		
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("selectThumbnailBoard");
+		String sql = prop.getProperty("selectThumbnailList");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -487,21 +487,94 @@ public class BoardDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				Board b = new Board(rset.getInt("BOARD_NO"),
-									rset.getString("CATEGORY_NAME"),
-									rset.getString("BOARD_TITLE"),
-									rset.getString("USER_ID"),
-									rset.getInt("COUNT"),
-									rset.getDate("CREATE_DATE"));
-				list.add(b);
+				Board b = new Board();
+				b.setBoardNo(rset.getInt("BOARD_NO"));
+				b.setBoardTitle(rset.getString("BOARD_TITLE"));
+				b.setCount(rset.getInt("COUNT"));
+				b.setTitleImg(rset.getString("TITLEIMG"));
+				
+				/*
+				 * Attachment at = new Attachment();
+				 * at.setFilePath(rset.getString("FILE_PATH"));
+				 * at.setChangeName(rset.getString("CHANGE_NAME"));
+				 * at.setFileLevel(rset.getInt("FILE_LEVEL"));
+				 */
+				
+				list.add(b);	
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
+			close(rset);
 			close(pstmt);
 		}
 		return list;
+	}
+	
+	public Board thumbnailDetailBoard(Connection conn, int boardNo) {
 		
-
+		Board b = new Board();
+		
+		ArrayList<Attachment> list = new ArrayList();
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAttachmentList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b.setBoardTitle(rset.getString("BOARD_TITLE"));
+				b.setBoardWriter(rset.getString("USER_NAME"));
+				b.setCreateDate(rset.getDate("CREATE_DATE"));
+				b.setBoardContent(rset.getString("BOARD_CONTENT"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(conn);
+		}
+		return b;
+	}
+	
+	public ArrayList<Attachment> selectAttachmentList(Connection conn, int boardNo){
+		
+		ArrayList<Attachment> list = new ArrayList();
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Attachment at = new Attachment();
+				at.setChangeName(rset.getString("CHANGE_NAME"));
+				at.setFilePath(rset.getString("FILE_PATH"));
+				at.setFileLevel(rset.getInt("FILE_LEVEL"));
+				
+				list.add(at);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
 }
