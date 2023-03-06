@@ -130,15 +130,16 @@
 					bno : "<%= b.getBoardNo() %>"
 				},
 				success : function(result) {
-					// 댓글등록 성공시 result = 1
 					
-					// 실패시 result = 0
 					if(result > 0) {
+					// 댓글등록 성공시 result = 1
 						alert("작성 성공");
 						// 새 댓글목록 불러오는 함수 호출
 						selectReplyList();
 						// 댓글내용 비워주기
+						$("#replyContent").val("");
 					}else {
+					// 실패시 result = 0
 						alert("댓글작성에 실패했습니다.");
 					}
 				},
@@ -158,7 +159,7 @@
 					//서버로부터 전달받은 리스트를 반복문을 통해 댓글목록으로 변환 < xml참고
 					let result = "";
 					for(let i of result) {
-						//
+						
 					}
 				},
 				error : function() {
