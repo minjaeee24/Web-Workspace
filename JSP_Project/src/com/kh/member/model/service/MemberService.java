@@ -109,4 +109,15 @@ public class MemberService {
 	   
 	   return result;
    }
+   
+   public String idCheck(String userId) {
+	   
+	   Connection conn = JDBCTemplate.getConnection();
+	   
+	   String idCheck = new MemberDao().idCheck(conn, userId);
+	   
+	   JDBCTemplate.close(conn);
+	   
+	   return idCheck;
+   }
 }

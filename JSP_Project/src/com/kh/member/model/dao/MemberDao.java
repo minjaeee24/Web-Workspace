@@ -234,5 +234,37 @@ public class MemberDao {
 	   
    }
    
+   public String idCheck(Connection conn, String userId) {
+	   
+	   String result = "";
+	   
+	   PreparedStatement pstmt = null;
+	   
+	   ResultSet rset = null;
+	   
+	   String sql = prop.getProperty("idCheck");
+	   
+	   try {
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, userId);
+		
+		
+		rset = pstmt.executeQuery();
+		
+		if(rset.next()) {
+			result = rset.getString("USER_ID");
+		}
+		
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		JDBCTemplate.close(rset);
+		JDBCTemplate.close(pstmt);
+	}
+	   
+	   return result;
+	   
+   }
    
 }
