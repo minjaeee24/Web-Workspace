@@ -1,10 +1,10 @@
-<%@ page import="com.kh.board.model.vo.*" %>
+<%@ page import="com.kh.board.model.vo.*, java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	Board b = (Board) request.getAttribute("b");
 	Attachment at = (Attachment) request.getAttribute("at");
-	Reply r = (Reply) request.getAttribute("r");
+	ArrayList<Reply> list = (ArrayList<Reply>)request.getAttribute("list");
 %>
 <!DOCTYPE html>
 <html>
@@ -81,40 +81,34 @@
 		
 		<div id="reply-area">
 			<table border="1" align="center">
-				<% if(loginUser != null) { %>
-					<!-- 로그인이 되어있을 경우 -->
+				<thead>
+					<% if(loginUser != null) { %>
+						<!-- 로그인이 되어있을 경우 -->
+						<tr>
+							<th>댓글작성</th>
+							<td>
+								<textarea id="replyContent" rows="3" cols="50" style="resize:none;"></textarea>
+							</td>
+							<td><button onclick="insertReply();">댓글등록</button>
+						</tr>
+					<% }else { %>
+						<tr>
+							<th>댓글작성</th>
+							<td>
+								<textarea id="replyContent" rows="3" cols="50" style="resize:none;" readonly>로그인 후 이용이 가능한 서비스입니다.</textarea>
+							</td>
+							<td><button disabled">댓글등록</button>
+						</tr>
+					<% } %>
+				</thead>
+			<tbody>
+				<% for(Reply r : list) { %>
 					<tr>
-						<th>댓글작성</th>
-						<td>
-							<textarea id="replyContent" rows="3" cols="50" style="resize:none;"></textarea>
-						</td>
-						<td><button onclick="insertReply();">댓글등록</button>
-					</tr>
-				<% }else { %>
-					<tr>
-						<th>댓글작성</th>
-						<td>
-							<textarea id="replyContent" rows="3" cols="50" style="resize:none;" readonly>로그인 후 이용이 가능한 서비스입니다.</textarea>
-						</td>
-						<td><button disabled">댓글등록</button>
+						<td><%= r.getReplyWriter() %></td>
+						<td><%= r.getReplyContent() %></td>
+						<td><%= r.getCreateDate() %></td>
 					</tr>
 				<% } %>
-			<tbody>
-				<%-- <tr>
-					<td><%= r.getReplyWriter() %></td>
-					<td><%= r.getReplyContent() %></td>
-					<td><%= r.getCreateDate() %></td>
-				</tr> --%>
-				<tr>
-					<td>user02</td>
-					<td>테스트댓글</td>
-					<td>2023-01-02</td>
-				</tr>
-				<tr>
-					<td>user03</td>
-					<td>테스트댓글</td>
-					<td>2023-01-02</td>
-				</tr>
 			</tbody>
 			</table>
 		</div>
@@ -122,6 +116,9 @@
 	</div>
 
 	<script>
+		$(function() {
+			setInterval(selectReplyList, 1000);
+		});
 		function insertReply() {
 			$.ajax({
 				url : "<%= contextPath %>/rinsert.bo",
@@ -158,9 +155,14 @@
 					
 					//서버로부터 전달받은 리스트를 반복문을 통해 댓글목록으로 변환 < xml참고
 					let result = "";
-					for(let i of result) {
-						
+					for(let i of list) {
+						result += "<tr>"
+									+"<td>"+ i.replyWriter +"</td>"
+									+"<td>"+ i.replyContent +"</td>"
+									+"<td>"+ i.createDate +"</td>"
+								+ "</tr>";
 					}
+					$("#reply-area tbody").html(result);
 				},
 				error : function() {
 					console.log("게시글 목록조회 실패");

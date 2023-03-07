@@ -4,13 +4,13 @@
 <%
 	String contextPath = request.getContextPath();
 
-Member loginUser = (Member) session.getAttribute("loginUser");
-// 로그인 전 : null값이 담김
-// 로그인 후 : 로그인한 회원의 Member객체
-
-String alertMsg = (String) session.getAttribute("alertMsg");
-//모든 서비스 요청 전 : null
-//모든 서비스 요청 성공 : alert로 띄워줄 메세지 문구 ex)로그인에 성공했습니다. 게시글등록에 성공했습니다
+	Member loginUser = (Member) session.getAttribute("loginUser");
+	// 로그인 전 : null값이 담김
+	// 로그인 후 : 로그인한 회원의 Member객체
+	
+	String alertMsg = (String) session.getAttribute("alertMsg");
+	//모든 서비스 요청 전 : null
+	//모든 서비스 요청 성공 : alert로 띄워줄 메세지 문구 ex)로그인에 성공했습니다. 게시글등록에 성공했습니다
 %>
 <!DOCTYPE html>
 <html>
@@ -107,7 +107,8 @@ String alertMsg = (String) session.getAttribute("alertMsg");
 				</tr>
 				<tr>
 					<th colspan="2">
-						<button>로그인</button>
+						<input type="checkbox" id="saveId"><label for="saveId">아이디 저장</label>
+						<button type="button" onclick="submitLogin();">로그인</button>
 						<button type="button" onclick="enrollPage();">회원가입</button>
 					</th>
 				</tr>
@@ -115,12 +116,47 @@ String alertMsg = (String) session.getAttribute("alertMsg");
 		</form>
 		<script>
 			function enrollPage(){
+				
 				// location.href = "<%=contextPath%>/enrollForm.me"; 했을때 이동은 가능			
 				// 웹어플리케이션의 디렉토리 구조가 url에 노출되면 보안에 취약
 				
 				// 단순한 정적인 페이지 이동요청이라고 해도 반드시 selvet을 거쳐갈것 => url에 서블릿 매핑값만 노출되도록 하기
 				location.href = "<%=contextPath%>/enrollForm.me";
 			}
+			function submitLogin() {
+				
+				let userId = $("#login-form input[name=userId]").val();
+				
+				if($("#saveId").is(":checked")) { // true 체크된 상태
+					document.cookie = "saveId="+userId+"; path=/; max-age="+60*60*24; // 쿠키 최대 유지시간 설정(1일)
+				}else { // 체크하지 않고 로그인시 저장된 쿠키를 삭제
+					document.cookie = "saveId=; path=/; max-age=0;" // 최대시간을 0으로 설정해서 해당 쿠키 제거					
+				}
+				
+				$("#login-form").submit();
+			}
+			
+			function getCookie() {
+				let value = "";
+				if(document.cookie.length > 0) {
+					let index = document.cookie.indexOf("saveId=");
+					if(index != -1) { // saveId라는 쿠키가 있다면
+						index += "saveId=".length;
+						let end = document.cookie.indexOf(";", index);
+						
+						if(end == -1) {
+							value = document.cookie.substring(index);
+						}else {
+							value = document.cookie.substring(index, end);
+						}
+						$("#login-form input[name=userId]").val(value);
+						$("#saveId").attr("checked", true);
+					}
+				}
+			}
+			$(function() {
+				getCookie();
+			});
 		</script>
 		<%
 			} else {

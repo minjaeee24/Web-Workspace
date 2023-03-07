@@ -605,7 +605,7 @@ public class BoardDao {
 	
 	public ArrayList<Reply> selectReplyList(Connection conn, int bno) {
 		
-		ArrayList<Reply> list = new ArrayList();
+		ArrayList<Reply> list = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
 		
@@ -620,11 +620,19 @@ public class BoardDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				Reply r = new Reply(rset.getInt(1),
-									rset.getString(2),
-									rset.getString(3),
-									rset.getString(4));
-				list.add(r);
+				/*
+				 * Reply r = new Reply(rset.getInt(1),
+				 * 					   rset.getString(2),
+				 * 					   rset.getString(3),
+				 * 					   rset.getString(4));
+				 * list.add(r);
+				 */
+				list.add(new Reply(
+						rset.getInt("REPLY_NO"),
+						rset.getString("REPLY_CONTENT"),
+						rset.getString("USER_ID"),
+						rset.getString("CREATE_DATE")
+						));
 			}
 			
 		} catch (SQLException e) {
