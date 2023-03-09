@@ -75,7 +75,7 @@ request에 없는 result변수 삭제 후 result : ${ result }
 </pre>
 
 result : <c:out value="${ result }"/><br>
-dafault설정시 result값 : <c:out value="${ result }" default="값이 없음" /> <br><br>
+default설정시 result값 : <c:out value="${ result }" default="값이 없음" /> <br><br>
 
 <!-- escapeXml -->
 <c:set var="outTest" value="<b>출력테스트</b>"/>
