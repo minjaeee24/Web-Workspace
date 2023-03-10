@@ -1,6 +1,7 @@
 <%@ page import="com.kh.board.model.vo.*, java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%
 	Board b = (Board) request.getAttribute("b");
 	Attachment at = (Attachment) request.getAttribute("at");
@@ -28,31 +29,39 @@
 		<table id="detail-area" align="center" border="1">
 			<tr>
 				<th width="70">카테고리</th>
-				<th width="70"><%= b.getCategory() %></th>
+				<th width="70">${ b.getCategory() }</th>
 				<th width="70">제목</th>
-				<td width="350"><%= b.getBoardTitle() %></td>
+				<td width="350">${ b.getBoardTitle() }</td>
 			</tr>
 			<tr>
 				<th>작성자</th>
-				<td><%= b.getBoardWriter() %></td>
+				<td>${ b.getBoardWriter() }</td>
 				<th>작성일</th>
-				<td><%= b.getCreateDate() %></td>
+				<td>${ b.getCreateDate() }</td>
 			</tr>
 			<tr>
 				<th>내용</th>
 				<td colspan="3">
-					<p style="height: 200px"><%= b.getBoardContent() %></p>
+					<p style="height: 200px">${ b.getBoardContent() }</p>
 				</td>
 			</tr>	
 			<tr>
 				<th>첨부파일</th>
 				<td colspan="3">
-					<% if(at == null) { %>
+					<c:choose>
+						<c:when test="${ empty at }">
+							첨부파일이 없습니다
+						</c:when>
+						<c:otherwise>
+							<a download="${ at.getOriginName() }" href="${ contextPath }/${ at.getFilePath() }+${ at.getChangeName() }">${ at.getOriginName() }</a>
+						</c:otherwise>
+					</c:choose>
+					<%-- <% if(at == null) { %>
 						첨부파일이 없습니다
 					<% } else { %>
 						<!-- href='/jspproject/resources/board_upfiles/2022xxxx.jpg' -->
 						<a download="<%= at.getOriginName() %>" href="<%= contextPath %>/<%= at.getFilePath()+at.getChangeName() %>"><%= at.getOriginName() %></a>
-					<% } %>	
+					<% } %>	 --%>
 				</td>
 			</tr>
 		</table>
@@ -60,9 +69,18 @@
 		<br>
 		
 		<div align="center">
-			<a href="<%= contextPath %>/list.bo?currentPage=1" class="btn btn-secondary btn-sm">목록가기</a>
+			<a href="${ contextPath }/list.bo?currentPage=1" class="btn btn-secondary btn-sm">목록가기</a>
 			
 			<!-- 로그인한 사용자가 해당 게시글의 작성자인 경우 -->
+			<%-- <c:choose>
+				<c:when test="${ !empty loginUser && loginUser.userId eq b.boardWriter }">
+					<c:url var="query" value="update.bo">
+						<c:param name="bno" value="${ b.getBoardNo() }"/>
+					</c:url>
+					<a href="${ contextPath }/${ query }" class="btn btn-warning btn-sm">수정하기</a>
+					<button onclick="deleteBoard();" class="btn btn-danger btn-sm">삭제하기</button>
+				</c:when>
+			</c:choose> --%>
 			<% if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())) { %>
 				<a href="<%= contextPath %>/update.bo?bno=<%= b.getBoardNo() %>" class="btn btn-warning btn-sm">수정하기</a>
 				<button onclick="deleteBoard();" class="btn btn-danger btn-sm">삭제하기</button>
