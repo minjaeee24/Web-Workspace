@@ -14,9 +14,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-	
-</style>
 </head>
 <body>
 	<script>
@@ -65,9 +62,8 @@
 			} else {
 		%>
 		<div id="user-info">
-			안녕하세요. <b></b>님 환영합니다.<br>
-			<br>
-			<div align="center">
+			안녕하세요. <%=loginUser.getUserName()%>(<%=loginUser.getUserId()%>)님<br>
+			<div>
 				<a href="<%=contextPath%>/logout.me">로그아웃</a>
 				<a href="<%=contextPath%>/myPage.me">회원정보변경</a> 
 			</div>
